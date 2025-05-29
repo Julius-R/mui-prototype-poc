@@ -1,16 +1,33 @@
 import CreateTextComponent from './text'
 
 describe('CreateTextComponent', () => {
-	it('mounts', () => {
+	it('mounts p element with green text', () => {
 		cy.mount(
 			CreateTextComponent({
-				child: 'Text',
+				children: 'Text',
 				sx: {
-					color: 'green'
+					color: 'rgb(0, 128, 0)'
 				}
 			})
 		)
-		cy.get('[data-cy=typography]').should('not.be.hidden')
-		cy.get('[data-cy=typography]').should('contain.text', 'Text')
+			.get('p')
+			.should('contain.text', 'Text')
+			.should('have.css', 'color', 'rgb(0, 128, 0)')
+	})
+
+	it('mounts h6 element', () => {
+		cy.mount(
+			CreateTextComponent({
+				children: 'This is text',
+				variant: 'h6'
+			})
+		)
+			.get('h6')
+			.should('exist')
+			.should('contain.text', 'This is text')
+	})
+
+	it('null returns nothing', () => {
+		cy.mount(CreateTextComponent({})).get('[data-cy="typography"]').should('not.exist')
 	})
 })

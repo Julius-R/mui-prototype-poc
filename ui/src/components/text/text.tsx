@@ -23,21 +23,13 @@ const TextSchema = z.object({
 		])
 		.optional()
 		.default('body1'),
-	align: z.literal(['center', 'inherit', 'justify', 'left', 'right']).optional().default('inherit'),
-	child: z.string(),
+	children: z.string(),
 	sx: z.record(z.string(), z.string()).optional()
 })
 
 type TextProps = z.infer<typeof TextSchema>
 
-const Text = ({ textProps }: { textProps: TextProps }) => {
-	const sxProps = textProps.sx
-	return (
-		<Typography data-cy={'typography'} align={textProps.align} sx={sxProps} variant={textProps.variant}>
-			{textProps.child}
-		</Typography>
-	)
-}
+const Text = ({ textProps }: { textProps: TextProps }) => <Typography {...textProps} />
 
 const CreateTextComponent = (schema: unknown): ReactNode => {
 	const parsedScheme = TextSchema.safeParse(schema)
